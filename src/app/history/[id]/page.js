@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import styles from "@/app/globals.module.css";
 
 export default function HistoryDetailPage() {
@@ -62,10 +63,11 @@ export default function HistoryDetailPage() {
 
         <h3 className={styles.cardTitle} style={{ marginBottom: 8 }}>Recommendations</h3>
         {(data.recommendations || []).map((r, idx) => (
-          <div
+          <Link
             key={idx}
+            href={`/programs/${encodeURIComponent(r.programName)}`}
             className={styles.resultCard}
-            style={{ position: "relative", background: "#dff8f7" }}
+            style={{ position: "relative", background: "#dff8f7", textDecoration: "none", cursor: "pointer", display: "block" }}
           >
             <div
               style={{
@@ -87,7 +89,7 @@ export default function HistoryDetailPage() {
               {r.universityName}
               {r.facultyName ? ` · ${r.facultyName}` : ""} · Ontario
             </p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
