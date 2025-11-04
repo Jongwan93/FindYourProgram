@@ -41,13 +41,22 @@ export async function GET(req, { params }) {
     // Decode the ID (it might be URL-encoded)
     const decodedId = decodeURIComponent(id);
 
-    // Search for the program by program name or course code
+    // Search for the program by course code (most reliable) or program name
     const program = allPrograms.find(p => {
-      const programName = p['full course name'] || p.programName || '';
       const courseCode = p['course code'] || '';
+      const programName = p['full course name'] || '';
 
-      return programName.toLowerCase() === decodedId.toLowerCase() ||
-             courseCode.toLowerCase() === decodedId.toLowerCase();
+      // Try exact match on course code first (case-insensitive)
+      if (courseCode && courseCode.toLowerCase() === decodedId.toLowerCase()) {
+        return true;
+      }
+
+      // Fall back to program name matching (case-insensitive)
+      if (programName && programName.toLowerCase() === decodedId.toLowerCase()) {
+        return true;
+      }
+
+      return false;
     });
 
     if (!program) {

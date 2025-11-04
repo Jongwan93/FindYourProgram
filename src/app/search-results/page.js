@@ -73,7 +73,7 @@ return (
 
             <Link
               key={index}
-              href={`/programs/${encodeURIComponent(rec.programName)}`}
+              href={`/programs/${encodeURIComponent(rec.courseCode || rec.programName)}`}
               className={styles.searchResultsCard}
               style={{ textDecoration: "none", cursor: "pointer" }}
             >

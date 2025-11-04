@@ -77,15 +77,18 @@ export async function POST(req) {
 
     const prompt = `
       You are an expert university academic advisor. Based on the user's preferences and a pre-filtered list of programs, recommend the top 3 in Ontario.
-      For each chosen item, return "matchPercentage" (integer 0–100) and "facultyName".
+      For each chosen item, return "courseCode", "programName", "matchPercentage" (integer 0–100), and "facultyName".
+      IMPORTANT: Use the EXACT courseCode and programName from the list provided.
       User Preferences: ${JSON.stringify(userPreferences, null, 2)}
       Pre-filtered List: ${JSON.stringify(relevantPrograms.map(p => ({
-        programName: p.programName,
-        universityName: p.universityName,
-        description: p.description,
+        courseCode: p['course code'],
+        programName: p['full course name'],
+        degreeName: p['degree Name'],
+        description: p['program description'],
+        areaOfStudy: p['area of study'],
       })), null, 2)}
       Respond only with JSON in this format:
-      { "recommendations": [ { "programName": "", "universityName": "", "matchPercentage": 0, "facultyName": "" } ] }
+      { "recommendations": [ { "courseCode": "", "programName": "", "universityName": "University of Toronto", "matchPercentage": 0, "facultyName": "" } ] }
     `;
 
     const chatCompletion = await groq.chat.completions.create({
@@ -104,13 +107,14 @@ export async function POST(req) {
 
     const { db } = await connectToDatabase();
 
-    // ⬇️ Minimal change: include facultyName
+    // Store recommendations with course code for exact matching
     const recommendations = parsedResponse.recommendations
       .map(r => ({
+        courseCode: r.courseCode,
         programName: r.programName,
         universityName: r.universityName,
         matchPercentage: r.matchPercentage,
-        facultyName: r.facultyName, // <-- store faculty
+        facultyName: r.facultyName,
       }))
       .sort((a, b) => b.matchPercentage - a.matchPercentage)
       .slice(0, 3);

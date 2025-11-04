@@ -65,7 +65,7 @@ export default function HistoryDetailPage() {
         {(data.recommendations || []).map((r, idx) => (
           <Link
             key={idx}
-            href={`/programs/${encodeURIComponent(r.programName)}`}
+            href={`/programs/${encodeURIComponent(r.courseCode || r.programName)}`}
             className={styles.resultCard}
             style={{ position: "relative", background: "#dff8f7", textDecoration: "none", cursor: "pointer", display: "block" }}
           >
