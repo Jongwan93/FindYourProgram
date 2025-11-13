@@ -78,7 +78,13 @@ export async function POST(req) {
             "description": "2-3 sentences explaining why this program matches the student's profile",
             "prerequisites": "admission requirements (e.g., Ontario Secondary School Diploma, specific courses)",
             "websiteLink": "official university program page URL",
+<<<<<<< HEAD
             "matchPercentage": 95
+=======
+            "matchPercentage": 95,
+            "latitude": 0.0, 
+            "longitude": 0.0
+>>>>>>> upstream/main
           }
         ]
       }
