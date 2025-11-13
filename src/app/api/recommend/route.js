@@ -49,6 +49,11 @@ export async function POST(req) {
       ${userPreferences.hasLiving === "Yes" ? `- Living Expense Budget: $${userPreferences.livingBudget} CAD per year` : ""}
       ${userPreferences.priorities && userPreferences.priorities.length > 0 ? `- Priorities: ${userPreferences.priorities.join(", ")}` : ""}
       ${userPreferences.subjects && userPreferences.subjects.length > 0 ? `- Strong Subjects: ${userPreferences.subjects.join(", ")}` : ""}
+
+      *** CRITICAL RULES (MUST FOLLOW) ***
+      1. **NO COLLEGES**: Recommend ONLY from Universities (e.g., U of T, Waterloo, Western). STRICTLY EXCLUDE Colleges (e.g., Seneca, Humber, George Brown, Sheridan) even if they offer degrees.
+      2. **NAME CORRECTION**: If you find "Ryerson University", you MUST output the universityName as "Toronto Metropolitan University".
+      3. **VALID LOCATION**: You MUST provide accurate "latitude" and "longitude" for the campus location.
       
       IMPORTANT REQUIREMENTS:
       - Only recommend programs that ACTUALLY EXIST at real Ontario universities
@@ -78,13 +83,9 @@ export async function POST(req) {
             "description": "2-3 sentences explaining why this program matches the student's profile",
             "prerequisites": "admission requirements (e.g., Ontario Secondary School Diploma, specific courses)",
             "websiteLink": "official university program page URL",
-<<<<<<< HEAD
-            "matchPercentage": 95
-=======
             "matchPercentage": 95,
             "latitude": 0.0, 
             "longitude": 0.0
->>>>>>> upstream/main
           }
         ]
       }
